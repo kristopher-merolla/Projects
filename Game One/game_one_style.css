@@ -1,0 +1,21 @@
+* {
+	 margin: 0px;
+	 padding: 0px;
+	 font-family: Arial,sans-serif;
+}
+
+#big_wrapper {
+	width: 736px;
+	height: 414px;
+	background-color: tan;
+	margin: 0px auto;
+	padding-top: 49px;
+}
+
+#game_space {
+	width: 732px;
+	height: 268px;
+	background-color: lightblue;
+	border: 1px solid black;
+	margin: 0px auto;
+}
