@@ -19,3 +19,23 @@
 	border: 1px solid black;
 	margin: 0px auto;
 }
+
+#protagonist {
+	width: auto;
+	height: auto;
+	margin: 211px auto 0px auto; /*the zero position relative to the game space*/
+	background-color: lightgray;
+	display: block;
+}
+
+#control_space {
+	margin: 18px auto;
+	width: 123px;
+	height: auto;
+	background-color: lightgreen;
+}
+
+.button {
+	display: inline-block;
+	border: 1px solid black;
+}

@@ -5,9 +5,40 @@
 	<link rel="stylesheet" type="text/css" href="game_one_style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> <!-- link to jQuery library -->
 	<script>
-		
-		$(document).ready(function() {
 
+		function moveFunction(event) {
+			console.log(last_click+" clicked");
+		}
+
+		var last_click = "";
+				
+		$(document).ready(function() {
+			$("#control_space").hover(
+				function(){ //functions for hover in
+					$("#left_button").click(function(event) {
+						event.stopPropagation();
+						last_click = "left";
+						moveFunction();
+					});
+					$("#right_button").click(function(event) {
+						event.stopPropagation();
+						last_click = "right";
+						moveFunction();
+					});
+					$("#shoot_button").click(function(event) {
+						event.stopPropagation();
+						last_click = "shoot";
+						moveFunction();
+					});
+					$("#jump_button").click(function(event) {
+						event.stopPropagation();
+						last_click = "jump";
+						moveFunction();
+					});
+				},
+				function(){ //functions for hover out
+					console.log("game paused!");
+				})
 
 		}); //end of document.ready function
 
@@ -18,9 +49,15 @@
 
 		<div id="game_space">
 
-			<img src="stickman_stand.jpg" alt="standing stickman" id="protagonist" />
+			<img src="standing_stickman.png" alt="standing stickman" id="protagonist" />
 
 		</div> <!-- end of game_space -->
+		<div id="control_space">
+			<img src="left.png" alt="left button" id="left_button" class="button" />
+			<img src="right.png" alt="right button" id="right_button" class="button" />
+			<img src="shoot.png" alt="shoot button" id="shoot_button" class="button" />
+			<img src="up.png" alt="jump button" id="jump_button" class="button"/>
+		</div> <!-- end of control_space -->
 	</div> <!-- end of big_wrapper -->
 </body>
 </html>
