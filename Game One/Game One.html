@@ -6,8 +6,50 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> <!-- link to jQuery library -->
 	<script>
 
-		function moveFunction(event) {
+		function animateRight() {
+			setTimeout(function() {
+				$("#protagonist").attr("src","look_right.png");
+			}, 100);
+			setTimeout(function() {
+				$("#protagonist").attr("src","move_right.png");
+			}, 200);
+			setTimeout(function() {
+				$("#protagonist").attr("src","look_right.png");
+			}, 350);
+			setTimeout(function() {
+				$("#protagonist").attr("src","standing_stickman.png");
+			}, 400);
+		}
+
+		function animateLeft() {
+			setTimeout(function() {
+				$("#protagonist").attr("src","look_left.png");
+			}, 100);
+			setTimeout(function() {
+				$("#protagonist").attr("src","move_left.png");
+			}, 200);
+			setTimeout(function() {
+				$("#protagonist").attr("src","look_left.png");
+			}, 350);
+			setTimeout(function() {
+				$("#protagonist").attr("src","standing_stickman.png");
+			}, 400);
+		}
+
+		function moveFunction(event) { //function to be called to move the character around
 			console.log(last_click+" clicked");
+			if (last_click=="left") {
+				animateLeft();
+			}
+			if (last_click=="right") {
+				animateRight();
+			}
+			if (last_click=="shoot") {
+				console.log("do shoot action");
+			}
+			if (last_click=="jump") {
+				console.log("do jump action");
+			}
 		}
 
 		var last_click = "";
@@ -49,7 +91,7 @@
 
 		<div id="game_space">
 
-			<img src="standing_stickman.png" alt="standing stickman" id="protagonist" />
+			<img src="standing_stickman.png" alt="standing stickman" id="protagonist" /> <!-- on our protagonist, the different tags "move_src_X" will be used to animate the character -->
 
 		</div> <!-- end of game_space -->
 		<div id="control_space">
