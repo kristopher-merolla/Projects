@@ -32,8 +32,50 @@
 				$("#protagonist").attr("src","look_left.png");
 			}, 350);
 			setTimeout(function() {
-				$("#protagonist").attr("src","standing_stickman.png");
+				$("#protagonist").attr("src","standing_stickman_left.png");
 			}, 400);
+		}
+
+		function animateShoot() {
+			if (last_dir=="right") {
+				setTimeout(function() {
+					$("#protagonist").attr("src","shoot_right.png");
+				}, 100);
+				setTimeout(function() {
+					$("#protagonist").attr("src","standing_stickman.png");
+				}, 300);
+			}
+			if (last_dir=="left") {
+				setTimeout(function() {
+					$("#protagonist").attr("src","shoot_left.png");
+				}, 100);
+				setTimeout(function() {
+					$("#protagonist").attr("src","standing_stickman_left.png");
+				}, 300);
+			}
+		}
+
+		function animateJump() {
+			if (last_dir=="right") {
+				setTimeout(function() {
+					$("#protagonist").attr("src","jump_man.png");
+				}, 100);
+				setTimeout(function() {
+					$("#protagonist").attr("src","standing_stickman.png");
+				}, 300);
+				$("#protagonist").animate({marginTop: "-=40px"}, 800);
+				$("#protagonist").animate({marginTop: "+=40px"}, 800);
+			}
+			if (last_dir=="left") {
+				setTimeout(function() {
+					$("#protagonist").attr("src","jump_man_left.png");
+				}, 100);
+				setTimeout(function() {
+					$("#protagonist").attr("src","standing_stickman_left.png");
+				}, 300);
+				$("#protagonist").animate({marginTop: "-=40px"}, 800);
+				$("#protagonist").animate({marginTop: "+=40px"}, 800);
+			}
 		}
 
 		function moveFunction(event) { //function to be called to move the character around
@@ -45,43 +87,39 @@
 				animateRight();
 			}
 			if (last_click=="shoot") {
-				console.log("do shoot action");
+				animateShoot();
 			}
 			if (last_click=="jump") {
-				console.log("do jump action");
+				animateJump();
 			}
 		}
 
-		var last_click = "";
+		var last_click = ""; //this variable will remember what the last button clicked was (left, right, jump, shoot)
+		var last_dir = "right"; //default direction to start as right
 				
 		$(document).ready(function() {
-			$("#control_space").hover(
-				function(){ //functions for hover in
-					$("#left_button").click(function(event) {
-						event.stopPropagation();
-						last_click = "left";
-						moveFunction();
-					});
-					$("#right_button").click(function(event) {
-						event.stopPropagation();
-						last_click = "right";
-						moveFunction();
-					});
-					$("#shoot_button").click(function(event) {
-						event.stopPropagation();
-						last_click = "shoot";
-						moveFunction();
-					});
-					$("#jump_button").click(function(event) {
-						event.stopPropagation();
-						last_click = "jump";
-						moveFunction();
-					});
-				},
-				function(){ //functions for hover out
-					console.log("game paused!");
-				})
-
+			$("#left_button").click(function(event) {
+				event.stopPropagation();
+				last_click = "left";
+				last_dir="left";
+				moveFunction();
+			});
+			$("#right_button").click(function(event) {
+				event.stopPropagation();
+				last_click = "right";
+				last_dir="right";
+				moveFunction();
+			});
+			$("#shoot_button").click(function(event) {
+				event.stopPropagation();
+				last_click = "shoot";
+				moveFunction();
+			});
+			$("#jump_button").click(function(event) {
+				event.stopPropagation();
+				last_click = "jump";
+				moveFunction();
+			});
 		}); //end of document.ready function
 
 	</script>
