@@ -23,8 +23,8 @@
 #protagonist {
 	width: auto;
 	height: auto;
-	margin: 211px auto 0px auto; /*the zero position relative to the game space*/
-	display: block;
+	margin: 211px 0px 0px 330px; /*the zero position relative to the game space*/
+	display: inline-block;
 }
 
 #control_space {
@@ -37,4 +37,13 @@
 .button {
 	display: inline-block;
 	border: 1px solid black;
+}
+
+.beam {
+	display: inline-block;
+	position: absolute;
+}
+
+#beam_left {
+	/*margin: 200px 200px;*/
 }
