@@ -19,7 +19,13 @@
 			setTimeout(function() {
 				$("#protagonist").attr("src","standing_stickman.png");
 			}, 400);
-			$("#protagonist").animate({marginLeft: "+=30px"}, 150);
+			var pos_left = $("#protagonist").offset().left;
+			if (pos_left >= 771.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+				console.log("here need to add code to scroll the screen to the right, which means background moves left");
+			}
+			if (pos_left < 771.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+				$("#protagonist").animate({marginLeft: "+=30px"}, 150); //this moves the character to the left
+			}
 		}
 
 		function animateLeft() {
@@ -35,11 +41,17 @@
 			setTimeout(function() {
 				$("#protagonist").attr("src","standing_stickman_left.png");
 			}, 400);
-			$("#protagonist").animate({marginLeft: "-=30px"}, 150);
+			var pos_left = $("#protagonist").offset().left;
+			if (pos_left < 381.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+				console.log("here need to add code to scroll the screen to the left, which means background moves right");
+			}
+			if (pos_left >= 381.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+				$("#protagonist").animate({marginLeft: "-=30px"}, 150); //this moves the character to the left
+			}
 		}
 
 		function animateShoot() {
-			if (last_dir=="right") {
+			if (last_dir=="right") {  //this if animates a shot moving right
 				setTimeout(function() {
 					$("#protagonist").attr("src","shoot_right.png");
 				}, 100);
@@ -67,7 +79,7 @@
 					$("#beam_left").toggle();
 				}, 200);
 			}
-			if (last_dir=="left") {
+			if (last_dir=="left") { //this if animates a shot moving left
 				setTimeout(function() {
 					$("#protagonist").attr("src","shoot_left.png");
 				}, 100);
