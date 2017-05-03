@@ -67,7 +67,7 @@
 					$("#beam_left").toggle();
 				}, 200);
 			}
-			else if (last_dir=="left") {
+			if (last_dir=="left") {
 				setTimeout(function() {
 					$("#protagonist").attr("src","shoot_left.png");
 				}, 100);
@@ -80,11 +80,14 @@
 				var left_edge = ($("#protagonist").offset().left)-145.5; //here, 145.5 is the position of the left edge of the game box
 				$("#beam").toggle();
 				var pos_beam = pos_left - 145.5 - 14; //here, 14 is the width of the beam icon which needs to be subtracted from the relative position
-				if (pos_beam >= 200) {
+				console.log(pos_beam);
+				if (pos_beam >= 282) {
 					$("#beam").animate({left: "-=200px"}, 200);
 				}
-				if (pos_beam < 200) {
-					$("#beam").animate({left: "-="+pos_beam}, 200);
+				if (pos_beam < 282) {
+					console.log(pos_beam);
+					var pos_beam_left = (pos_beam-82);
+					$("#beam").animate({left: "-="+pos_beam_left}, 200);
 				}
 				setTimeout(function() {
 					$("#beam").toggle();
