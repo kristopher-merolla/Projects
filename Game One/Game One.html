@@ -7,7 +7,45 @@
 	<script>
 		var last_click = ""; //this variable will remember what the last button clicked was (left, right, jump, shoot)
 		var last_dir = "right"; //default direction to start as right
-		var xv = 0; // "x" velocity of our protagonist, rightward
+		var xv = 0; // "x" velocity of our protagonist
+		var spawn_count = 0; //counts how many enemies are spawned at one time
+
+		function createMonster() {
+			var spawn = Math.floor(Math.random()*100);
+			console.log(spawn);
+			console.log(spawn_count);
+			if (spawn > 75 && spawn_count < 1) { //here, set how many enemies you want spawned at one time max and the frequency!
+				spawn_count++;
+				$("#game_space").append("<img src='monster1.png' id='monster' class='minor_monster' alt='monster_image' />");
+				setInterval(function() {for (var i = 0 ; i < 1 ; i++) {
+					animateMonster();
+				}},400);
+			}
+		}
+
+		function animateMonster() {
+			if (spawn_count > 0) {
+				var pos_left = $("#protagonist").offset().left;
+				var pos_top = $("#protagonist").offset().top;
+				var mon_left = $(".minor_monster").offset().left;
+				var mon_top = $(".minor_monster").offset().top;
+				if (pos_left < mon_left) {
+					$(".minor_monster").animate({marginLeft: "-=7px"}, 50);
+				}
+				else {
+					$(".minor_monster").animate({marginLeft: "+=7px"}, 50);
+				}
+
+				if (pos_top > mon_top) {
+					if (mon_top < 210) {
+						$(".minor_monster").animate({marginTop: "+=7px"}, 50);
+					}
+				}
+				else {
+					$(".minor_monster").animate({marginTop: "-=7px"}, 50);
+				}
+			}	
+		}
 
 		function animateRight() {
 			setTimeout(function() {
@@ -27,10 +65,10 @@
 			xv +=30; //hthis is how far we want to move when we move right by one click
 			var move_right = "+=".concat(xv);
 
-			if (pos_left >= 771.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+			if (pos_left >= 600) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
 				console.log("here need to add code to scroll the screen to the right, which means background moves left");
 			}
-			if (pos_left < 771.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+			if (pos_left < 600) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
 				$("#protagonist").animate({marginLeft: move_right}, 150); //this moves the character to the left
 			}
 
@@ -55,10 +93,10 @@
 			xv +=30; //hthis is how far we want to move when we move right by one click
 			var move_left = "-=".concat(xv);
 
-			if (pos_left < 381.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+			if (pos_left < 100) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
 				console.log("here need to add code to scroll the screen to the left, which means background moves right");
 			}
-			if (pos_left >= 381.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
+			if (pos_left >= 100) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
 				$("#protagonist").animate({marginLeft: move_left}, 150); //this moves the character to the left
 			}
 
@@ -103,15 +141,12 @@
 				$("#beam_left").toggle();
 				var pos_beam = pos_left - 145.5 - 14; //here, 14 is the width of the beam icon which needs to be subtracted from the relative position
 				console.log(pos_left);
-				if (pos_beam <= 532) {
+				if (pos_beam <= 300) {
 					$("#beam_left").animate({left: "+=200px"}, 200);
-					console.log("pos beam needs to shorten: ",pos_beam);
 				}
-				if (pos_beam > 532) {
-					var pos_beam_right = (732-pos_beam);
-					console.log(pos_left);
+				if (pos_beam > 300) {
+					var pos_beam_right = (500-pos_beam);
 					$("#beam_left").animate({left: "+="+pos_beam_right}, 200); 
-					console.log("pos beam is:",pos_beam); 
 				}
 				setTimeout(function() {
 					$("#beam_left").toggle();
@@ -130,15 +165,7 @@
 				var left_edge = ($("#protagonist").offset().left)-145.5; //here, 145.5 is the position of the left edge of the game box
 				$("#beam").toggle();
 				var pos_beam = pos_left - 145.5 - 14; //here, 14 is the width of the beam icon which needs to be subtracted from the relative position
-				console.log(pos_beam);
-				if (pos_beam >= 282) {
-					$("#beam").animate({left: "-=200px"}, 200);
-				}
-				if (pos_beam < 282) {
-					console.log(pos_beam);
-					var pos_beam_left = (pos_beam-82);
-					$("#beam").animate({left: "-="+pos_beam_left}, 200);
-				}
+				$("#beam").animate({left: "-=200px"}, 200);
 				setTimeout(function() {
 					$("#beam").toggle();
 				}, 200);
@@ -148,15 +175,18 @@
 		function moveFunction(event) { //function to be called to move the character around
 			if (last_click=="left") {
 				animateLeft();
+				animateMonster();
 			}
 			if (last_click=="right") {
 				animateRight();
+				animateMonster();			
 			}
 			if (last_click=="shoot") {
 				animateShoot();
 			}
 			if (last_click=="jump") {
 				animateJump();
+				animateMonster();
 			}
 		}
 				
@@ -166,12 +196,14 @@
 				last_click = "left";
 				last_dir="left";
 				moveFunction();
+				createMonster();
 			});
 			$("#right_button").click(function(event) {
 				event.stopPropagation();
 				last_click = "right";
 				last_dir="right";
 				moveFunction();
+				createMonster();
 			});
 			$("#shoot_button").click(function(event) {
 				event.stopPropagation();

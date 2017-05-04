@@ -8,7 +8,7 @@
 	width: 736px;
 	height: 414px;
 	background-color: tan;
-	margin: 0px auto;
+	margin: 0px;
 	padding-top: 49px;
 }
 
@@ -44,6 +44,9 @@
 	position: absolute;
 }
 
-#beam_left {
-	/*margin: 200px 200px;*/
+.minor_monster {
+	position: absolute;
+	/*left and top below are used to set the starting position of the minor monster*/
+	left: 650px;
+	top: 50px;
 }
