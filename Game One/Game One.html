@@ -5,6 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="game_one_style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> <!-- link to jQuery library -->
 	<script>
+		var last_click = ""; //this variable will remember what the last button clicked was (left, right, jump, shoot)
+		var last_dir = "right"; //default direction to start as right
+		var xv = 0; // "x" velocity of our protagonist, rightward
 
 		function animateRight() {
 			setTimeout(function() {
@@ -19,13 +22,19 @@
 			setTimeout(function() {
 				$("#protagonist").attr("src","standing_stickman.png");
 			}, 400);
+			
 			var pos_left = $("#protagonist").offset().left;
+			xv +=30; //hthis is how far we want to move when we move right by one click
+			var move_right = "+=".concat(xv);
+
 			if (pos_left >= 771.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
 				console.log("here need to add code to scroll the screen to the right, which means background moves left");
 			}
 			if (pos_left < 771.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
-				$("#protagonist").animate({marginLeft: "+=30px"}, 150); //this moves the character to the left
+				$("#protagonist").animate({marginLeft: move_right}, 150); //this moves the character to the left
 			}
+
+			xv -=30; //reset from the move after the above if statements are ran
 		}
 
 		function animateLeft() {
@@ -41,12 +50,41 @@
 			setTimeout(function() {
 				$("#protagonist").attr("src","standing_stickman_left.png");
 			}, 400);
+
 			var pos_left = $("#protagonist").offset().left;
+			xv +=30; //hthis is how far we want to move when we move right by one click
+			var move_left = "-=".concat(xv);
+
 			if (pos_left < 381.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
 				console.log("here need to add code to scroll the screen to the left, which means background moves right");
 			}
 			if (pos_left >= 381.5) { //the if statement here is checking for the barrier condition and will stop movement to keep the character on the screen
-				$("#protagonist").animate({marginLeft: "-=30px"}, 150); //this moves the character to the left
+				$("#protagonist").animate({marginLeft: move_left}, 150); //this moves the character to the left
+			}
+
+			xv -=30;
+		}
+
+		function animateJump() {
+			if (last_dir=="right") {
+				setTimeout(function() {
+					$("#protagonist").attr("src","jump_man.png");
+				}, 100);
+				setTimeout(function() {
+					$("#protagonist").attr("src","standing_stickman.png");
+				}, 300);
+				$("#protagonist").animate({marginTop: "-=60px"}, 300);
+				$("#protagonist").animate({marginTop: "+=60px"}, 300);
+			}
+			if (last_dir=="left") {
+				setTimeout(function() {
+					$("#protagonist").attr("src","jump_man_left.png");
+				}, 100);
+				setTimeout(function() {
+					$("#protagonist").attr("src","standing_stickman_left.png");
+				}, 300);
+				$("#protagonist").animate({marginTop: "-=60px"}, 300);
+				$("#protagonist").animate({marginTop: "+=60px"}, 300);
 			}
 		}
 
@@ -107,29 +145,6 @@
 			}
 		}
 
-		function animateJump() {
-			if (last_dir=="right") {
-				setTimeout(function() {
-					$("#protagonist").attr("src","jump_man.png");
-				}, 100);
-				setTimeout(function() {
-					$("#protagonist").attr("src","standing_stickman.png");
-				}, 300);
-				$("#protagonist").animate({marginTop: "-=60px"}, 300);
-				$("#protagonist").animate({marginTop: "+=60px"}, 300);
-			}
-			if (last_dir=="left") {
-				setTimeout(function() {
-					$("#protagonist").attr("src","jump_man_left.png");
-				}, 100);
-				setTimeout(function() {
-					$("#protagonist").attr("src","standing_stickman_left.png");
-				}, 300);
-				$("#protagonist").animate({marginTop: "-=60px"}, 300);
-				$("#protagonist").animate({marginTop: "+=60px"}, 300);
-			}
-		}
-
 		function moveFunction(event) { //function to be called to move the character around
 			if (last_click=="left") {
 				animateLeft();
@@ -144,9 +159,6 @@
 				animateJump();
 			}
 		}
-
-		var last_click = ""; //this variable will remember what the last button clicked was (left, right, jump, shoot)
-		var last_dir = "right"; //default direction to start as right
 				
 		$(document).ready(function() {
 			$("#left_button").click(function(event) {
@@ -172,18 +184,14 @@
 				moveFunction();
 			});
 		}); //end of document.ready function
-
 	</script>
 </head>
 <body>
 	<div id="big_wrapper">
-
 		<div id="game_space">
-
 			<img src="beam.png" alt="beam left" id="beam" class="beam" style="display: none;"/> <!-- beams, hidden by default -->
 			<img src="standing_stickman.png" alt="standing stickman" id="protagonist" /> <!-- our protagonist! -->
 			<img src="beam_left.png" alt="beam" id="beam_left" class="beam" style="display: none;"/> <!-- beams, hidden by default -->
-
 		</div> <!-- end of game_space -->
 		<div id="control_space">
 			<img src="left.png" alt="left button" id="left_button" class="button" />
