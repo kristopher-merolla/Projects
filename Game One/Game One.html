@@ -12,14 +12,12 @@
 
 		function createMonster() {
 			var spawn = Math.floor(Math.random()*100);
-			console.log(spawn);
-			console.log(spawn_count);
 			if (spawn > 75 && spawn_count < 1) { //here, set how many enemies you want spawned at one time max and the frequency!
-				spawn_count++;
 				$("#game_space").append("<img src='monster1.png' id='monster' class='minor_monster' alt='monster_image' />");
+				spawn_count++;
 				setInterval(function() {for (var i = 0 ; i < 1 ; i++) {
 					animateMonster();
-				}},400);
+				}},350);
 			}
 		}
 
@@ -35,7 +33,6 @@
 				else {
 					$(".minor_monster").animate({marginLeft: "+=7px"}, 50);
 				}
-
 				if (pos_top > mon_top) {
 					if (mon_top < 210) {
 						$(".minor_monster").animate({marginTop: "+=7px"}, 50);
@@ -140,7 +137,6 @@
 				var right_edge = ($("#protagonist").offset().left)+145.5; //here, 145.5 is the position of the right edge of the game box
 				$("#beam_left").toggle();
 				var pos_beam = pos_left - 145.5 - 14; //here, 14 is the width of the beam icon which needs to be subtracted from the relative position
-				console.log(pos_left);
 				if (pos_beam <= 300) {
 					$("#beam_left").animate({left: "+=200px"}, 200);
 				}
@@ -148,6 +144,22 @@
 					var pos_beam_right = (500-pos_beam);
 					$("#beam_left").animate({left: "+="+pos_beam_right}, 200); 
 				}
+				//  **IN PROGRESS NOTE**
+				//below commented-out if statement needs to be worked on, should be stopping the beam's animation in place and removing the beam
+				//
+				// if (spawn_count > 0) {
+				// 	var pro = $("#protagonist").offset().left;
+				// 	var mon = $("#monster").offset().left;
+				// 	console.log("beam is",pro);
+				// 	console.log("mon is",mon);
+				// 	if (pro+230 > mon) {
+				// 		console.log("enemy hit");
+				// 		setTimeout(function() {
+				// 			$("#beam_left").stop();
+				// 			$("#beam").toggle();
+				// 		}, 200);
+				// 	}
+				// }
 				setTimeout(function() {
 					$("#beam_left").toggle();
 				}, 200);
@@ -175,18 +187,15 @@
 		function moveFunction(event) { //function to be called to move the character around
 			if (last_click=="left") {
 				animateLeft();
-				animateMonster();
 			}
 			if (last_click=="right") {
-				animateRight();
-				animateMonster();			
+				animateRight();		
 			}
 			if (last_click=="shoot") {
 				animateShoot();
 			}
 			if (last_click=="jump") {
 				animateJump();
-				animateMonster();
 			}
 		}
 				
