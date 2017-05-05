@@ -28,18 +28,18 @@
 				var mon_left = $(".minor_monster").offset().left;
 				var mon_top = $(".minor_monster").offset().top;
 				if (pos_left < mon_left) {
-					$(".minor_monster").animate({marginLeft: "-=7px"}, 50);
+					$(".minor_monster").animate({marginLeft: "-=3px"}, 10);
 				}
 				else {
-					$(".minor_monster").animate({marginLeft: "+=7px"}, 50);
+					$(".minor_monster").animate({marginLeft: "+=3px"}, 10);
 				}
 				if (pos_top > mon_top) {
 					if (mon_top < 210) {
-						$(".minor_monster").animate({marginTop: "+=7px"}, 50);
+						$(".minor_monster").animate({marginTop: "+=3px"}, 10);
 					}
 				}
 				else {
-					$(".minor_monster").animate({marginTop: "-=7px"}, 50);
+					$(".minor_monster").animate({marginTop: "-=3px"}, 10);
 				}
 			}	
 		}
@@ -131,39 +131,57 @@
 				setTimeout(function() {
 					$("#protagonist").attr("src","standing_stickman.png");
 				}, 300);
+
 				var pos_top = $("#protagonist").offset().top;
 				var pos_left = $("#protagonist").offset().left;
-				$("#beam_left").css({top: pos_top+20, left: pos_left+60, position:'absolute'});
-				var right_edge = ($("#protagonist").offset().left)+145.5; //here, 145.5 is the position of the right edge of the game box
-				$("#beam_left").toggle();
-				var pos_beam = pos_left - 145.5 - 14; //here, 14 is the width of the beam icon which needs to be subtracted from the relative position
-				if (pos_beam <= 300) {
-					$("#beam_left").animate({left: "+=200px"}, 200);
-				}
-				if (pos_beam > 300) {
-					var pos_beam_right = (500-pos_beam);
-					$("#beam_left").animate({left: "+="+pos_beam_right}, 200); 
-				}
-				//  **IN PROGRESS NOTE**
-				//below commented-out if statement needs to be worked on, should be stopping the beam's animation in place and removing the beam
-				//
-				// if (spawn_count > 0) {
-				// 	var pro = $("#protagonist").offset().left;
-				// 	var mon = $("#monster").offset().left;
-				// 	console.log("beam is",pro);
-				// 	console.log("mon is",mon);
-				// 	if (pro+230 > mon) {
-				// 		console.log("enemy hit");
-				// 		setTimeout(function() {
-				// 			$("#beam_left").stop();
-				// 			$("#beam").toggle();
-				// 		}, 200);
-				// 	}
-				// }
-				setTimeout(function() {
+				var mon_left = $(".minor_monster").offset().left;
+				var mon_top = $(".minor_monster").offset().top;
+				
+				function no_hit_right() {
+					$("#beam_left").css({top: pos_top+20, left: pos_left+60, position:'absolute'});
+					var right_edge = ($("#protagonist").offset().left)+145.5; //here, 145.5 is the position of the right edge of the game box
 					$("#beam_left").toggle();
-				}, 200);
+					var pos_beam = pos_left - 145.5 - 14; //here, 14 is the width of the beam icon which needs to be subtracted from the relative position
+					if (pos_beam <= 300) {
+						$("#beam_left").animate({left: "+=200px"}, 200);
+					}
+					if (pos_beam > 300) {
+						var pos_beam_right = (500-pos_beam);
+						$("#beam_left").animate({left: "+="+pos_beam_right}, 200); 
+					}
+					setTimeout(function() {
+					$("#beam_left").toggle();
+					}, 200);
+				}
+
+				function hit_right() {
+					$("#beam_left").css({top: pos_top+20, left: pos_left+60, position:'absolute'});
+					$("#beam_left").toggle();
+						$("#beam_left").animate({left: "+="+(mon_left-pos_left-40)}, (mon_left-pos_left-40)); //40 = slightly < the minor_monster width
+					setTimeout(function() {
+					$("#beam_left").toggle();
+					}, (mon_left-pos_left-40));
+				}
+
+				if (spawn_count == 0) {
+					no_hit_right();
+				}
+				if (spawn_count > 0) {
+					if ((mon_left - pos_left) < 249) { //249 is max beam (200) + the minor_monster box width (49)
+						if ((pos_top - mon_top) <= 60 && (pos_top - mon_top) >= -50) {
+							console.log("hit"); //this needs to be replaced by the "hit" action (lower enemy health by X until dead, then remove enemy)
+							hit_right();
+						}
+						else {
+							no_hit_right();
+						}
+					}
+					else {
+						no_hit_right();
+					}
+				}
 			}
+
 			if (last_dir=="left") { //this if animates a shot moving left
 				setTimeout(function() {
 					$("#protagonist").attr("src","shoot_left.png");
