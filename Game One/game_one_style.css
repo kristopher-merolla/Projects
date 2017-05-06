@@ -7,7 +7,7 @@
 #big_wrapper {
 	width: 736px;
 	height: 414px;
-	background-color: tan;
+	/*background-color: tan;*/
 	margin: 0px;
 	padding-top: 49px;
 }
@@ -52,5 +52,32 @@
 }
 
 #beam {
-	
+
+}
+
+h1 {
+	position: absolute;
+}
+
+p {
+	position: absolute;
+}
+
+input {
+	position: absolute;
+	width: 200px;
+	height: 40px;
+	font-size: 150%;
+	background-color: lightgreen;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+#platform {
+	position: absolute;
+}
+
+.platform1 {
+	margin-top: 211px;
+	margin-left: 100px;
 }

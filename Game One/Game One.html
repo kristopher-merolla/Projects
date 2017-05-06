@@ -27,21 +27,21 @@
 				var pos_top = $("#protagonist").offset().top;
 				var mon_left = $(".minor_monster").offset().left;
 				var mon_top = $(".minor_monster").offset().top;
+
 				if (pos_left < mon_left) {
 					$(".minor_monster").animate({marginLeft: "-=3px"}, 10);
 				}
 				else {
 					$(".minor_monster").animate({marginLeft: "+=3px"}, 10);
 				}
-				if (pos_top > mon_top) {
-					if (mon_top < 210) {
-						$(".minor_monster").animate({marginTop: "+=3px"}, 10);
-					}
+
+				if (pos_top > mon_top && mon_top < 210) {
+					$(".minor_monster").animate({marginTop: "+=3px"}, 10);
 				}
 				else {
 					$(".minor_monster").animate({marginTop: "-=3px"}, 10);
 				}
-			}	
+			}
 		}
 
 		function animateRight() {
@@ -134,8 +134,6 @@
 
 				var pos_top = $("#protagonist").offset().top;
 				var pos_left = $("#protagonist").offset().left;
-				var mon_left = $(".minor_monster").offset().left;
-				var mon_top = $(".minor_monster").offset().top;
 				
 				function no_hit_right() {
 					$("#beam_left").css({top: pos_top+20, left: pos_left+60, position:'absolute'});
@@ -167,6 +165,8 @@
 					no_hit_right();
 				}
 				if (spawn_count > 0) {
+					var mon_left = $(".minor_monster").offset().left;
+					var mon_top = $(".minor_monster").offset().top;
 					if ((mon_left - pos_left) < 249) { //249 is max beam (200) + the minor_monster box width (49)
 						if ((pos_top - mon_top) <= 60 && (pos_top - mon_top) >= -50) {
 							console.log("hit"); //this needs to be replaced by the "hit" action (lower enemy health by X until dead, then remove enemy)
@@ -216,47 +216,52 @@
 				animateJump();
 			}
 		}
-				
-		$(document).ready(function() {
-			$("#left_button").click(function(event) {
+
+		function control(event) {
+			var x = event.keyCode;
+			if (x == 97) { //pressing 'a' on the key board
 				event.stopPropagation();
 				last_click = "left";
 				last_dir="left";
 				moveFunction();
 				createMonster();
-			});
-			$("#right_button").click(function(event) {
+			}
+			if (x == 100) { //pressing 'd' on the keyboard
 				event.stopPropagation();
 				last_click = "right";
 				last_dir="right";
 				moveFunction();
 				createMonster();
-			});
-			$("#shoot_button").click(function(event) {
+			}
+			if (x == 32) { //pressing 'spacebar' on the keyboard
 				event.stopPropagation();
 				last_click = "shoot";
 				moveFunction();
-			});
-			$("#jump_button").click(function(event) {
+			}
+			if (x == 119) { //pressing 'w' on the keyboard
 				event.stopPropagation();
 				last_click = "jump";
 				moveFunction();
-			});
+			}
+		}
+				
+		$(document).ready(function() {
+
 		}); //end of document.ready function
 	</script>
 </head>
 <body>
 	<div id="big_wrapper">
 		<div id="game_space">
+			<p><h1>Level 0</h1></p>
+			<img src="platform.png" alt="platform" id="platform" class="platform1" />
 			<img src="beam.png" alt="beam left" id="beam" class="beam" style="display: none;"/> <!-- beams, hidden by default -->
 			<img src="standing_stickman.png" alt="standing stickman" id="protagonist" /> <!-- our protagonist! -->
 			<img src="beam_left.png" alt="beam" id="beam_left" class="beam" style="display: none;"/> <!-- beams, hidden by default -->
 		</div> <!-- end of game_space -->
+		<input type="text" onkeypress="control(event)">
 		<div id="control_space">
-			<img src="left.png" alt="left button" id="left_button" class="button" />
-			<img src="right.png" alt="right button" id="right_button" class="button" />
-			<img src="shoot.png" alt="shoot button" id="shoot_button" class="button" />
-			<img src="up.png" alt="jump button" id="jump_button" class="button"/>
+			<p>Controls:<br>A - Move Left<br>D - Move Right<br>W - Jump<br>Spacebar - Shoot</p>
 		</div> <!-- end of control_space -->
 	</div> <!-- end of big_wrapper -->
 </body>
